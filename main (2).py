@@ -1,11 +1,14 @@
 import time
-from replit import clear
-from replit import db
+
+
 from datetime import date
 import os
 import random
+import json
 
-
+def clear():
+  print("\033c",end="")
+	
 time.sleep(2)
 user_name = os.environ['REPL_OWNER']
 cheat = "bananas are amazing!"
@@ -1338,7 +1341,21 @@ def menu():
 		elif action == "s":
 			print("Saving... (if you finish reading this, replit may be unstable)")
 			player_data["money"] = money
-			db[user_name] = player_data
+			existing_data = {}
+			try:
+			    with open('data.json', 'r') as file:
+			        existing_data = json.load(file)
+			except FileNotFoundError:
+			    pass
+			# Update with new player data
+			player_data = {
+			    "name": "John",
+			    "score": 100
+			}
+			existing_data.update(player_data)
+			# Save the combined data back to the file
+			with open('data.json', 'w') as file:
+			    json.dump(existing_data, file)
 			clear()
 		elif action == "l":
 			print("Loading... (if you finish reading this, replit may be unstable)")
